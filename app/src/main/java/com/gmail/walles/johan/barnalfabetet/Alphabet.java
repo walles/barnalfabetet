@@ -27,15 +27,16 @@ public class Alphabet {
         lettersAndPhrases.put('o', "O som i ost");
         lettersAndPhrases.put('p', "P som i pappa");
         lettersAndPhrases.put('r', "R som i randig");
-        lettersAndPhrases.put('s', "S som i soppa");
+        lettersAndPhrases.put('s', "S som i Sofia");
         lettersAndPhrases.put('t', "T som i tunnelbana");
         lettersAndPhrases.put('u', "U som i ubåt");
         lettersAndPhrases.put('v', "V som i viktig");
+        lettersAndPhrases.put('w', "W som i Walles");
         lettersAndPhrases.put('x', "X som i xylofon");
         lettersAndPhrases.put('y', "Y som i yla");
         lettersAndPhrases.put('z', "Z som i zebra");
         lettersAndPhrases.put('å', "Å som i åka");
-        lettersAndPhrases.put('ä', "Ä som i ärta");
+        lettersAndPhrases.put('ä', "Ä som i äta");
         lettersAndPhrases.put('ö', "Ö som i ödla");
     }
 
