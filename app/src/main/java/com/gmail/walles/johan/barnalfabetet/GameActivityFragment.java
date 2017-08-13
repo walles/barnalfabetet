@@ -11,6 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import timber.log.Timber;
 
 /**
@@ -118,13 +122,23 @@ public class GameActivityFragment extends Fragment implements View.OnClickListen
         Timber.i("Picking new letter...");
 
         // Pick the new letter
-        letter = alphabet.getRandomLetter();
+        List<Character> chars = new ArrayList<>();
+        chars.add(alphabet.getRandomLetter());
+        chars.add(alphabet.getRandomLetter());
+        chars.add(alphabet.getRandomLetter());
+        while (chars.get(1) == chars.get(0)) {
+            chars.set(1, alphabet.getRandomLetter());
+        }
+        while ((chars.get(2) == chars.get(0)) || (chars.get(2) == chars.get(1))) {
+            chars.set(2, alphabet.getRandomLetter());
+        }
+        letter = chars.get(0);
 
         // Update the buttons
-        // FIXME: Put the correct answer in a random location
-        ((Button)getView().findViewById(R.id.answer1)).setText("Z");
-        ((Button)getView().findViewById(R.id.answer2)).setText(Character.toString(letter));
-        ((Button)getView().findViewById(R.id.answer3)).setText("X");
+        Collections.shuffle(chars);
+        ((Button)getView().findViewById(R.id.answer1)).setText(Character.toString(chars.get(0)));
+        ((Button)getView().findViewById(R.id.answer2)).setText(Character.toString(chars.get(1)));
+        ((Button)getView().findViewById(R.id.answer3)).setText(Character.toString(chars.get(2)));
 
         // Speak the new phrase to the user
         speak(alphabet.getPhrase(letter), false);
@@ -161,11 +175,11 @@ public class GameActivityFragment extends Fragment implements View.OnClickListen
         Button button = (Button)view;
         if (TextUtils.equals(button.getText(), Character.toString(letter))) {
             // Praise the user and pick a new letter
-            speak("Rätt svar, bra!", true);
+            speak("\"" + letter + "\", bra!", true);
             pickNewLetter();
         } else {
             // Prompt the user to try again
-            speak("\"" + button.getText() + "\" var fel, försök igen!", true);
+            speak("\"" + button.getText() + "\" var fel, försök hitta \"" + letter + "\"!", true);
         }
     }
 }
