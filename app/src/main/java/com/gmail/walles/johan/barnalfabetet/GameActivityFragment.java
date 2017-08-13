@@ -36,7 +36,7 @@ public class GameActivityFragment extends Fragment {
                         if (ttsStatus == TextToSpeech.SUCCESS) {
                             pickNewLetter();
                         } else {
-                            Timber.e("Error setting up TTS: status={}", i);
+                            Timber.e("Error setting up TTS: status=%d", i);
                         }
                     }
                 });
@@ -54,7 +54,7 @@ public class GameActivityFragment extends Fragment {
 
             @Override
             public void onError(String s) {
-                Timber.e("Speech failed: id=<{}>", s);
+                Timber.e("Speech failed: id=<%s>", s);
             }
         });
     }
@@ -72,16 +72,16 @@ public class GameActivityFragment extends Fragment {
         }
 
         if (ttsStatus != TextToSpeech.SUCCESS) {
-            Timber.e("Text to speech status unsuccessful: {}", ttsStatus);
+            Timber.e("Text to speech status unsuccessful: %d", ttsStatus);
             return;
         }
 
         int queueMode = flush ? TextToSpeech.QUEUE_FLUSH : TextToSpeech.QUEUE_ADD;
         int status = textToSpeech.speak(phrase, queueMode, null);
         if (status == TextToSpeech.SUCCESS) {
-            Timber.i("Spoken: flush={}, phrase=<{}>", flush, phrase);
+            Timber.i("Spoken: flush=%s, phrase=<%s>", flush, phrase);
         } else {
-            Timber.e("Speech failed: flush={}, phrase=<{}>", flush, phrase);
+            Timber.e("Speech failed: flush=%s, phrase=<%s>", flush, phrase);
         }
     }
 
