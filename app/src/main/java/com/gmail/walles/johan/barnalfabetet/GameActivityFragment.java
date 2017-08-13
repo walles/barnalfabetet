@@ -21,6 +21,8 @@ public class GameActivityFragment extends Fragment implements View.OnClickListen
     private TextToSpeech textToSpeech;
     private int ttsStatus = TextToSpeech.ERROR;
 
+    private Alphabet alphabet = new Alphabet();
+
     private char letter;
 
     public GameActivityFragment() {
@@ -115,17 +117,17 @@ public class GameActivityFragment extends Fragment implements View.OnClickListen
 
         Timber.i("Picking new letter...");
 
-        // FIXME: Pick the new letter
-        letter = 'A';
+        // Pick the new letter
+        letter = alphabet.getRandomLetter();
 
-        // FIXME: Update the buttons
+        // Update the buttons
         // FIXME: Put the correct answer in a random location
         ((Button)getView().findViewById(R.id.answer1)).setText("Z");
-        ((Button)getView().findViewById(R.id.answer2)).setText("A");
+        ((Button)getView().findViewById(R.id.answer2)).setText(Character.toString(letter));
         ((Button)getView().findViewById(R.id.answer3)).setText("X");
 
-        // FIXME: Speak the new phrase to the user
-        speak("A som i apa", false);
+        // Speak the new phrase to the user
+        speak(alphabet.getPhrase(letter), false);
     }
 
     @Override
@@ -159,11 +161,11 @@ public class GameActivityFragment extends Fragment implements View.OnClickListen
         Button button = (Button)view;
         if (TextUtils.equals(button.getText(), Character.toString(letter))) {
             // Praise the user and pick a new letter
-            speak("Det var rätt, bra!", true);
+            speak("Rätt svar, bra!", true);
             pickNewLetter();
         } else {
             // Prompt the user to try again
-            speak("Det där var \"" + button.getText() + "\", försök igen!", true);
+            speak("\"" + button.getText() + "\" var fel, försök igen!", true);
         }
     }
 }
