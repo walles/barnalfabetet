@@ -135,7 +135,7 @@ public class GameActivityFragment extends Fragment implements View.OnClickListen
         letter = chars.get(0);
 
         // Update the buttons
-        Collections.shuffle(chars);
+        Collections.sort(chars);
         ((Button)getView().findViewById(R.id.answer1)).setText(Character.toString(chars.get(0)));
         ((Button)getView().findViewById(R.id.answer2)).setText(Character.toString(chars.get(1)));
         ((Button)getView().findViewById(R.id.answer3)).setText(Character.toString(chars.get(2)));
