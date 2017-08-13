@@ -18,16 +18,16 @@ public class Alphabet {
         lettersAndPhrases.put('g', "G som i gris");
         lettersAndPhrases.put('h', "H som i häst");
         lettersAndPhrases.put('i', "I som i isbjörn");
-        lettersAndPhrases.put('j', "J som i julgran");
+        lettersAndPhrases.put('j', "J som i Johan");
         lettersAndPhrases.put('k', "K som i kaka");
         lettersAndPhrases.put('l', "L som i lampa");
         lettersAndPhrases.put('m', "M som i mamma");
         lettersAndPhrases.put('n', "N som i noshörning");
-        lettersAndPhrases.put('o', "O som i ortoped");
+        lettersAndPhrases.put('o', "O som i ost");
         lettersAndPhrases.put('p', "P som i pappa");
         lettersAndPhrases.put('r', "R som i randig");
         lettersAndPhrases.put('s', "S som i soppa");
-        lettersAndPhrases.put('t', "T som i tokig");
+        lettersAndPhrases.put('t', "T som i tunnelbana");
         lettersAndPhrases.put('u', "U som i ubåt");
         lettersAndPhrases.put('v', "V som i viktig");
         lettersAndPhrases.put('x', "X som i xylofon");
@@ -35,7 +35,7 @@ public class Alphabet {
         lettersAndPhrases.put('z', "Z som i zebra");
         lettersAndPhrases.put('å', "Å som i åka");
         lettersAndPhrases.put('ä', "Ä som i ärta");
-        lettersAndPhrases.put('ö', "Ö som i önska");
+        lettersAndPhrases.put('ö', "Ö som i ödla");
     }
 
     public char getRandomLetter() {
