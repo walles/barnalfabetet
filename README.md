@@ -6,6 +6,8 @@ with three buttons, one marked "K" and two with other
 letters. The user then presses "K" and gets rewarded, or
 presses something else and gets asked to try again.
 
+Note that the strings are in Swedish, just like my kids.
+
 # TODO
 * Have a pref for caps-only or both lowercase and uppercase
 * Have a pref for serif vs sans-serif

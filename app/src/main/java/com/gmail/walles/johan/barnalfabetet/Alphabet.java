@@ -9,6 +9,7 @@ public class Alphabet {
     private Random random = new Random();
 
     public Alphabet() {
+        // Strings are Swedish, just like my kids :)
         lettersAndPhrases.put('a', "A som i apa");
         lettersAndPhrases.put('b', "B som i björn");
         lettersAndPhrases.put('c', "C som i cykel");
