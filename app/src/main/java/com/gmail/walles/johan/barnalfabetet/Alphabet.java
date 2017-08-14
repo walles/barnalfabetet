@@ -1,58 +1,85 @@
 package com.gmail.walles.johan.barnalfabetet;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 
 public class Alphabet {
-    private Map<Character, String> lettersAndPhrases = new HashMap<>();
+    private Map<Character, Set<String>> lettersAndWords = new HashMap<>();
     private Random random = new Random();
 
     public Alphabet() {
         // Strings are Swedish, just like my kids :)
-        lettersAndPhrases.put('a', "A som i apa");
-        lettersAndPhrases.put('b', "B som i björn");
-        lettersAndPhrases.put('c', "C som i cykel");
-        lettersAndPhrases.put('d', "D som i dromedar");
-        lettersAndPhrases.put('e', "E som i eko");
-        lettersAndPhrases.put('f', "F som i flodhäst");
-        lettersAndPhrases.put('g', "G som i gris");
-        lettersAndPhrases.put('h', "H som i häst");
-        lettersAndPhrases.put('i', "I som i isbjörn");
-        lettersAndPhrases.put('j', "J som i Johan");
-        lettersAndPhrases.put('k', "K som i kaka");
-        lettersAndPhrases.put('l', "L som i lampa");
-        lettersAndPhrases.put('m', "M som i mamma");
-        lettersAndPhrases.put('n', "N som i noshörning");
-        lettersAndPhrases.put('o', "O som i ost");
-        lettersAndPhrases.put('p', "P som i pappa");
-        lettersAndPhrases.put('r', "R som i randig");
-        lettersAndPhrases.put('s', "S som i Sofia");
-        lettersAndPhrases.put('t', "T som i tunnelbana");
-        lettersAndPhrases.put('u', "U som i ubåt");
-        lettersAndPhrases.put('v', "V som i viktig");
-        lettersAndPhrases.put('w', "W som i Walles");
-        lettersAndPhrases.put('x', "X som i xylofon");
-        lettersAndPhrases.put('y', "Y som i yla");
-        lettersAndPhrases.put('z', "Z som i zebra");
-        lettersAndPhrases.put('å', "Å som i åka");
-        lettersAndPhrases.put('ä', "Ä som i äta");
-        lettersAndPhrases.put('ö', "Ö som i ödla");
+        addExampleWord("apa");
+        addExampleWord("björn");
+        addExampleWord("bajs");
+        addExampleWord("cykel");
+        addExampleWord("dromedar");
+        addExampleWord("eko");
+        addExampleWord("flygplan");
+        addExampleWord("gris");
+        addExampleWord("häst");
+        addExampleWord("isbjörn");
+        addExampleWord("Johan");
+        addExampleWord("kaka");
+        addExampleWord("krabba");
+        addExampleWord("kiss");
+        addExampleWord("lampa");
+        addExampleWord("mamma");
+        addExampleWord("Malva");
+        addExampleWord("Melvin");
+        addExampleWord("noshörning");
+        addExampleWord("ost");
+        addExampleWord("pappa");
+        addExampleWord("parkeringsplats");
+        addExampleWord("prutta");
+        addExampleWord("randig");
+        addExampleWord("Sofia");
+        addExampleWord("saxlyft");
+        addExampleWord("tunnelbana");
+        addExampleWord("ubåt");
+        addExampleWord("viktig");
+        addExampleWord("Walles");
+        addExampleWord("xylofon");
+        addExampleWord("yla");
+        addExampleWord("zebra");
+        addExampleWord("åka");
+        addExampleWord("ädelsten");
+        addExampleWord("ödla");
     }
 
-    public char getRandomLetter() {
-        int randomIndex = random.nextInt(lettersAndPhrases.keySet().size());
+    private void addExampleWord(String word) {
+        char letter = word.charAt(0);
+
+        // We do only caps for now
+        letter = Character.toUpperCase(letter);
+
+        if (!lettersAndWords.containsKey(letter)) {
+            lettersAndWords.put(letter, new HashSet<String>());
+        }
+        lettersAndWords.get(letter).add(word);
+    }
+
+    private <E> E getRandom(Set<E> set) {
+        int randomIndex = random.nextInt(set.size());
         int i = 0;
-        for (char randomLetter : lettersAndPhrases.keySet()) {
+        for (E element : set) {
             if (i++ == randomIndex) {
-                return randomLetter;
+                return element;
             }
         }
 
         throw new RuntimeException("This should never happen");
     }
 
+    public char getRandomLetter() {
+        return getRandom(lettersAndWords.keySet());
+    }
+
     public String getPhrase(char letter) {
-        return lettersAndPhrases.get(letter);
+        Set<String> words = lettersAndWords.get(letter);
+        return "\"" + letter + "\" som i \"" + getRandom(words) + "\"";
     }
 }
