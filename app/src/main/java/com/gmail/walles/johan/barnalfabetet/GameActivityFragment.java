@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -25,11 +26,16 @@ public class GameActivityFragment extends Fragment implements View.OnClickListen
     private TextToSpeech textToSpeech;
     private int ttsStatus = TextToSpeech.ERROR;
 
-    private Alphabet alphabet = new Alphabet();
+    private final Alphabet alphabet;
 
     private char letter;
 
     public GameActivityFragment() {
+        try {
+            alphabet = new Alphabet();
+        } catch (IOException e) {
+            throw new RuntimeException("Setup failed", e);
+        }
     }
 
     @Override

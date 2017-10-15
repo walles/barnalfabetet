@@ -1,5 +1,10 @@
 package com.gmail.walles.johan.barnalfabetet;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -10,44 +15,29 @@ public class Alphabet {
     private Map<Character, Set<String>> lettersAndWords = new HashMap<>();
     private Random random = new Random();
 
-    public Alphabet() {
-        // Strings are Swedish, just like my kids :)
-        addExampleWord("apa");
-        addExampleWord("björn");
-        addExampleWord("bajs");
-        addExampleWord("cykel");
-        addExampleWord("dromedar");
-        addExampleWord("eko");
-        addExampleWord("flygplan");
-        addExampleWord("gris");
-        addExampleWord("häst");
-        addExampleWord("isbjörn");
-        addExampleWord("Johan");
-        addExampleWord("kaka");
-        addExampleWord("krabba");
-        addExampleWord("kiss");
-        addExampleWord("lampa");
-        addExampleWord("mamma");
-        addExampleWord("Malva");
-        addExampleWord("Melvin");
-        addExampleWord("noshörning");
-        addExampleWord("ost");
-        addExampleWord("pappa");
-        addExampleWord("parkeringsplats");
-        addExampleWord("prutta");
-        addExampleWord("randig");
-        addExampleWord("Sofia");
-        addExampleWord("saxlyft");
-        addExampleWord("tunnelbana");
-        addExampleWord("ubåt");
-        addExampleWord("viktig");
-        addExampleWord("Walles");
-        addExampleWord("xylofon");
-        addExampleWord("yla");
-        addExampleWord("zebra");
-        addExampleWord("åka");
-        addExampleWord("ädelsten");
-        addExampleWord("ödla");
+    public Alphabet() throws IOException {
+        ClassLoader classLoader = getClass().getClassLoader();
+        try (InputStream wordStream = classLoader.getResourceAsStream("wordlist.txt")) {
+            try (BufferedReader wordReader = new BufferedReader(
+                    new InputStreamReader(wordStream, StandardCharsets.UTF_8))) {
+                while (true) {
+                    String line = wordReader.readLine();
+                    if (line == null) {
+                        break;
+                    }
+
+                    line = line.trim();
+                    if (line.isEmpty()) {
+                        continue;
+                    }
+                    if (line.startsWith("#")) {
+                        continue;
+                    }
+
+                    addExampleWord(line);
+                }
+            }
+        }
     }
 
     private void addExampleWord(String word) {
