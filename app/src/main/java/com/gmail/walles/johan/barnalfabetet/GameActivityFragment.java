@@ -26,17 +26,7 @@ public class GameActivityFragment extends Fragment implements View.OnClickListen
     private TextToSpeech textToSpeech;
     private int ttsStatus = TextToSpeech.ERROR;
 
-    private final Alphabet alphabet;
-
     private char letter;
-
-    public GameActivityFragment() {
-        try {
-            alphabet = new Alphabet();
-        } catch (IOException e) {
-            throw new RuntimeException("Setup failed", e);
-        }
-    }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -126,6 +116,14 @@ public class GameActivityFragment extends Fragment implements View.OnClickListen
         }
 
         Timber.i("Picking new letter...");
+
+        Alphabet alphabet;
+        try {
+            alphabet = new Alphabet();
+        } catch (IOException e) {
+            Timber.e("Getting the Alphabet failed", e);
+            return;
+        }
 
         // Pick the new letter
         List<Character> chars = new ArrayList<>();
