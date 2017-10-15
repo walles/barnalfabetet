@@ -7,6 +7,8 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
@@ -18,26 +20,35 @@ public class Alphabet {
     public Alphabet() throws IOException {
         ClassLoader classLoader = getClass().getClassLoader();
         try (InputStream wordStream = classLoader.getResourceAsStream("wordlist.txt")) {
-            try (BufferedReader wordReader = new BufferedReader(
-                    new InputStreamReader(wordStream, StandardCharsets.UTF_8))) {
-                while (true) {
-                    String line = wordReader.readLine();
-                    if (line == null) {
-                        break;
-                    }
-
-                    line = line.trim();
-                    if (line.isEmpty()) {
-                        continue;
-                    }
-                    if (line.startsWith("#")) {
-                        continue;
-                    }
-
-                    addExampleWord(line);
-                }
+            for (String word: getWords(wordStream)) {
+                addExampleWord(word);
             }
         }
+    }
+
+    private static Iterable<String> getWords(InputStream source) throws IOException {
+        List<String> returnMe = new LinkedList<>();
+        try (BufferedReader wordReader = new BufferedReader(
+                new InputStreamReader(source, StandardCharsets.UTF_8))) {
+            while (true) {
+                String line = wordReader.readLine();
+                if (line == null) {
+                    break;
+                }
+
+                line = line.trim();
+                if (line.isEmpty()) {
+                    continue;
+                }
+                if (line.startsWith("#")) {
+                    continue;
+                }
+
+                returnMe.add(line);
+            }
+        }
+
+        return returnMe;
     }
 
     private void addExampleWord(String word) {
