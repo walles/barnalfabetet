@@ -3,7 +3,7 @@ apa
 björn
 bajs
 cykel
-dromedar
+drake
 eko
 flygplan
 gris
@@ -27,7 +27,7 @@ Sofia
 saxlyft
 tunnelbana
 ubåt
-viktig
+vatten
 Walles
 xylofon
 yla
