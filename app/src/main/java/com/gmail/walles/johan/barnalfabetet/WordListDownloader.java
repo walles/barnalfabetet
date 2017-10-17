@@ -29,7 +29,7 @@ public class WordListDownloader {
             try (OutputStream outputStream = new FileOutputStream(inProgress)) {
                 byte[] buffer = new byte[1024 * 8];
 
-                int bytesRead = 0;
+                int bytesRead;
                 while ((bytesRead = inputStream.read(buffer, 0, buffer.length)) >= 0) {
                     outputStream.write(buffer, 0, bytesRead);
                 }
@@ -38,11 +38,13 @@ public class WordListDownloader {
 
         if (!inProgress.renameTo(destination)) {
             if (!inProgress.delete()) {
-                Timber.w("Failed to delete {}", inProgress.getAbsolutePath());
+                Timber.w("Failed to delete %s", inProgress.getAbsolutePath());
             }
             throw new IOException(String.format(Locale.ENGLISH, "Renaming %s into %s failed",
                     inProgress.getAbsolutePath(),
                     destination.getAbsolutePath()));
         }
+
+        Timber.d("Word list downloaded into %s", destination.getAbsolutePath());
     }
 }

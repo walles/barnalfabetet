@@ -6,6 +6,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.io.File;
+import java.io.IOException;
+
+import timber.log.Timber;
+
 public class GameActivity extends AppCompatActivity {
 
     @Override
@@ -14,6 +19,17 @@ public class GameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    WordListDownloader.downloadWordList(new File(getCacheDir(), "wordlist.txt"));
+                } catch (IOException e) {
+                    Timber.w("Updating word list failed");
+                }
+            }
+        }, "Word List Downloader").start();
     }
 
     @Override
