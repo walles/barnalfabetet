@@ -1,6 +1,10 @@
 package com.gmail.walles.johan.barnalfabetet;
 
+import android.content.Context;
+
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -13,11 +17,22 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
+import timber.log.Timber;
+
 public class Alphabet {
     private Map<Character, Set<String>> lettersAndWords = new HashMap<>();
     private Random random = new Random();
 
-    public Alphabet() throws IOException {
+    public Alphabet(Context context) throws IOException {
+        try (InputStream wordStream = new FileInputStream(new File(context.getCacheDir(), "wordlist.txt"))) {
+            for (String word: getWords(wordStream)) {
+                addExampleWord(word);
+            }
+            return;
+        } catch (IOException e) {
+            Timber.w("Loading cached word list failed: %s", e.getMessage());
+        }
+
         ClassLoader classLoader = getClass().getClassLoader();
         try (InputStream wordStream = classLoader.getResourceAsStream("wordlist.txt")) {
             for (String word: getWords(wordStream)) {

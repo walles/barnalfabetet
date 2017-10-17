@@ -119,7 +119,7 @@ public class GameActivityFragment extends Fragment implements View.OnClickListen
 
         Alphabet alphabet;
         try {
-            alphabet = new Alphabet();
+            alphabet = new Alphabet(getContext());
         } catch (IOException e) {
             Timber.e("Getting the Alphabet failed", e);
             return;
