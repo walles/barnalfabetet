@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import java.io.IOException;
+import java.util.Random;
 
 import timber.log.Timber;
 
@@ -19,6 +20,8 @@ import timber.log.Timber;
  * A placeholder fragment containing a simple view.
  */
 public class GameActivityFragment extends Fragment implements View.OnClickListener {
+    private static final String[] PRAISE = { "bra", "fint", "utmärkt" };
+
     @Nullable
     private TextToSpeech textToSpeech;
     private int ttsStatus = TextToSpeech.ERROR;
@@ -160,7 +163,8 @@ public class GameActivityFragment extends Fragment implements View.OnClickListen
         Button button = (Button)view;
         if (TextUtils.equals(button.getText(), challenge.answer)) {
             // Praise the user and pick a new letter
-            speak("\"" + challenge.answer + "\", bra!", true);
+            String praise = PRAISE[new Random().nextInt(PRAISE.length)];
+            speak("\"" + challenge.answer + "\", " + praise + "!", true);
             pickNewLetter();
         } else {
             // Prompt the user to try again
