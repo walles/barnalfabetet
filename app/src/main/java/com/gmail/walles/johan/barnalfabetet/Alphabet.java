@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -90,11 +92,36 @@ public class Alphabet {
         throw new RuntimeException("This should never happen");
     }
 
-    public char getRandomLetter() {
+    public Challenge createChallenge() {
+        // Pick the new letter
+        List<Character> chars = new ArrayList<>();
+        chars.add(getRandomLetter());
+        chars.add(getRandomLetter());
+        chars.add(getRandomLetter());
+        while (chars.get(1) == chars.get(0)) {
+            chars.set(1, getRandomLetter());
+        }
+        while ((chars.get(2) == chars.get(0)) || (chars.get(2) == chars.get(1))) {
+            chars.set(2, getRandomLetter());
+        }
+
+        char answer = chars.get(0);
+
+        Collections.sort(chars);
+        String[] options = new String[] {
+                Character.toString(chars.get(0)),
+                Character.toString(chars.get(1)),
+                Character.toString(chars.get(2))
+        };
+
+        return new Challenge(getPhrase(answer), Character.toString(answer), options);
+    }
+
+    private char getRandomLetter() {
         return getRandom(lettersAndWords.keySet());
     }
 
-    public String getPhrase(char letter) {
+    private String getPhrase(char letter) {
         Set<String> words = lettersAndWords.get(letter);
         return "\"" + letter + "\" som i \"" + getRandom(words) + "\"";
     }

@@ -12,9 +12,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 import timber.log.Timber;
 
@@ -26,7 +23,7 @@ public class GameActivityFragment extends Fragment implements View.OnClickListen
     private TextToSpeech textToSpeech;
     private int ttsStatus = TextToSpeech.ERROR;
 
-    private char letter;
+    private Challenge challenge;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -125,27 +122,11 @@ public class GameActivityFragment extends Fragment implements View.OnClickListen
             return;
         }
 
-        // Pick the new letter
-        List<Character> chars = new ArrayList<>();
-        chars.add(alphabet.getRandomLetter());
-        chars.add(alphabet.getRandomLetter());
-        chars.add(alphabet.getRandomLetter());
-        while (chars.get(1) == chars.get(0)) {
-            chars.set(1, alphabet.getRandomLetter());
-        }
-        while ((chars.get(2) == chars.get(0)) || (chars.get(2) == chars.get(1))) {
-            chars.set(2, alphabet.getRandomLetter());
-        }
-        letter = chars.get(0);
-
-        // Update the buttons
-        Collections.sort(chars);
-        ((Button)getView().findViewById(R.id.answer1)).setText(Character.toString(chars.get(0)));
-        ((Button)getView().findViewById(R.id.answer2)).setText(Character.toString(chars.get(1)));
-        ((Button)getView().findViewById(R.id.answer3)).setText(Character.toString(chars.get(2)));
-
-        // Speak the new phrase to the user
-        speak(alphabet.getPhrase(letter), false);
+        challenge = alphabet.createChallenge();
+        ((Button)getView().findViewById(R.id.answer1)).setText(challenge.options[0]);
+        ((Button)getView().findViewById(R.id.answer2)).setText(challenge.options[1]);
+        ((Button)getView().findViewById(R.id.answer3)).setText(challenge.options[2]);
+        speak(challenge.question, false);
     }
 
     @Override
@@ -177,13 +158,13 @@ public class GameActivityFragment extends Fragment implements View.OnClickListen
         }
 
         Button button = (Button)view;
-        if (TextUtils.equals(button.getText(), Character.toString(letter))) {
+        if (TextUtils.equals(button.getText(), challenge.answer)) {
             // Praise the user and pick a new letter
-            speak("\"" + letter + "\", bra!", true);
+            speak("\"" + challenge.answer + "\", bra!", true);
             pickNewLetter();
         } else {
             // Prompt the user to try again
-            speak("\"" + button.getText() + "\" var fel, försök hitta \"" + letter + "\"!", true);
+            speak("\"" + button.getText() + "\" var fel, försök hitta \"" + challenge.answer + "\"!", true);
         }
     }
 }
